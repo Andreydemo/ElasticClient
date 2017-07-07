@@ -10,6 +10,7 @@ public class JerseyConfig extends ResourceConfig {
     public JerseyConfig() {
         register(Endpoint.class);
         register(ReverseEndpoint.class);
+        register(AkkaTest.class);
     }
 
 }

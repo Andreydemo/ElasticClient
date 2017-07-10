@@ -1,4 +1,4 @@
-package com.demosoft.elastic;
+package com.demosoft.elastic.endpoint;
 
 /**
  * Created by admin on 7/3/17.

@@ -2,13 +2,13 @@ package com.demosoft.elastic;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
+import akka.actor.Props;
 import akka.util.Timeout;
 import com.demosoft.elastic.akka.GreetingActor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 import scala.concurrent.Await;
 import scala.concurrent.Future;
 import scala.concurrent.duration.FiniteDuration;
@@ -41,10 +41,19 @@ public class AkkaTest {
 
     @PostConstruct
     void init() {
-        greeter = actorSystem.actorOf(SPRING_EXTENSION_PROVIDER.get(actorSystem).props("greetingActor"), "greeter");
+        String greetingActor = "greetingActor";
+        greeter = createActor(greetingActor);
         duration = FiniteDuration.create(5, TimeUnit.SECONDS);
         timeout = Timeout.durationToTimeout(duration);
         logger.info("Inited " + this);
+    }
+
+    private ActorRef createActor(String greetingActor) {
+        return actorSystem.actorOf(getProps(greetingActor), "greeter");
+    }
+
+    private Props getProps(String greetingActor) {
+        return SPRING_EXTENSION_PROVIDER.get(actorSystem).props(greetingActor);
     }
 
     @GET
